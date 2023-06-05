@@ -1,0 +1,10 @@
+.cardContainer {
+  height: 100%;
+}
+
+.ajustarTexto{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  max-height: 270px;
+}
