@@ -9,24 +9,23 @@ import ListaNoticias from "./components/ListaNoticias";
 function App() {
   const [noticias, setNoticias] = useState([]);
 
-  const consultarAPI = async (categoria) => {
-    console.log("Consultando la API para la categoría:", categoria);
+  const consultarAPI = async (categoria, pais) => {
+    console.log("Consultando la API para la categoría y país:", categoria + " " + pais);
     try {
-      const respuesta = await fetch(
-        "https://newsdata.io/api/1/news?apikey=pub_239563736315da29b1c357ac928ebd51256b2&language=es&category=" +
-          categoria
-      );
+      const link = `https://newsdata.io/api/1/news?apikey=pub_239563736315da29b1c357ac928ebd51256b2${pais ? `&country=${pais}` : ""}&language=es${
+        categoria ? `&category=${categoria}` : ""
+      }`;
+      const respuesta = await fetch(link);
       const datos = await respuesta.json();
-      console.log(respuesta);
-      console.log(datos.results);
+      console.log(link)
       setNoticias(datos.results);
     } catch (errores) {
       console.log(errores);
     }
   };
 
-  const handleCategoriaSeleccionada = (categoria) => {
-    consultarAPI(categoria);
+  const handleSeleccion = (categoria, pais) => {
+    consultarAPI(categoria, pais);
   };
 
   return (
@@ -35,7 +34,7 @@ function App() {
       <hr />
       <Container className="border p-4">
         <Formulario
-          handleCategoriaSeleccionada={handleCategoriaSeleccionada}
+          handleCategoriaSeleccionada={handleSeleccion}
           consultarAPI={consultarAPI}
         ></Formulario>
         <hr />

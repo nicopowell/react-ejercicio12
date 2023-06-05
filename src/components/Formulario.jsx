@@ -2,26 +2,27 @@ import { useState } from "react";
 import { Form, Col, Row } from "react-bootstrap";
 
 const Formulario = ({ consultarAPI }) => {
-  const [categoria, setCategoria] = useState("");
-  const [pais, setPais] = useState("");
+  const [categoria, setCategoria] = useState(undefined);
+  const [pais, setPais] = useState(undefined);
 
   const handleChangeCategoria = (e) => {
     const categoriaSeleccionada = e.target.value;
-    setCategoria(categoriaSeleccionada); // Actualiza el estado con la categoría seleccionada
-    if (!categoriaSeleccionada) {
-      console.log("nada");
-      return;
+    if (categoriaSeleccionada === "Opciones") {
+      consultarAPI(undefined, pais);
+    } else {
+      setCategoria(categoriaSeleccionada);
+      consultarAPI(categoriaSeleccionada, pais);
     }
-    consultarAPI(categoriaSeleccionada); // Llama a la función consultarAPI con el valor de la categoría
   };
 
   const handleChangePais = (e) => {
     const paisSeleccionado = e.target.value;
-    setPais(paisSeleccionado); // Actualiza el estado con la categoría seleccionada
-    if (!paisSeleccionado) {
-      return;
+    if (paisSeleccionado === "Opciones") {
+      consultarAPI(categoria, undefined);
+    } else {
+      setPais(paisSeleccionado);
+      consultarAPI(categoria, paisSeleccionado);
     }
-    consultarAPI(categoriaSeleccionada); // Llama a la función consultarAPI con el valor de la categoría
   };
 
   return (
@@ -46,10 +47,10 @@ const Formulario = ({ consultarAPI }) => {
           Buscar por país
         </Form.Label>
         <Col sm="10" className="d-flex align-items-center">
-          <Form.Select onChange={handleOptionChange} value={pais}>
+          <Form.Select onChange={handleChangePais} value={pais}>
             <option>Opciones</option>
             <option value="ar">Argentina</option>
-            <option value="es">España-</option>
+            <option value="es">España</option>
             <option value="us">Estados Unidos</option>
             <option value="mx">Mexico</option>
             <option value="gb">Reino Unido</option>
