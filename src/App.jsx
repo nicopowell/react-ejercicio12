@@ -10,14 +10,12 @@ function App() {
   const [noticias, setNoticias] = useState([]);
 
   const consultarAPI = async (categoria, pais) => {
-    console.log("Consultando la API para la categoría y país:", categoria + " " + pais);
     try {
       const link = `https://newsdata.io/api/1/news?apikey=pub_239563736315da29b1c357ac928ebd51256b2${pais ? `&country=${pais}` : ""}&language=es${
         categoria ? `&category=${categoria}` : ""
       }`;
       const respuesta = await fetch(link);
       const datos = await respuesta.json();
-      console.log(link)
       setNoticias(datos.results);
     } catch (errores) {
       console.log(errores);
